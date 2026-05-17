@@ -1,11 +1,9 @@
 export const testData = {
 
   base_url: 'https://www.saucedemo.com'!,
-  screenshot_path: './screenshots',
-
+  screenshot_path:'SwagLabs_Test-Automation/screenshots',
+  
   validUser: {
-    // username: process.env.STANDARD_USER_USERNAME!,
-    // password: process.env.PASSWORD!,
     username: 'standard_user'!,
     password: 'secret_sauce'!,
   },
@@ -15,7 +13,7 @@ export const testData = {
   },
   lockedOutUser: {
     username: 'locked_out_user',
-    password: process.env.PASSWORD!,
+    password: 'secret_sauce'!,
   },
 
 };

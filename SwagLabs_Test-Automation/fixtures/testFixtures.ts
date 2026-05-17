@@ -1,4 +1,4 @@
-import {test as base } from '@playwright/test'; //Renaming test to base because of new test u will create
+import {test as base, expect } from '@playwright/test'; //Renaming test to base because of new test u will create
 import { LoginPage } from '../pages/LoginPage'; //Bringing in your Page Objects (How to interact)
 import { ProductPage } from '../pages/ProductPage'; //Bringing in your Page Objects (How to interact)
 
@@ -24,13 +24,9 @@ export const test = base.extend<MyFixtures>({
         await use(productPage);
     }
 
-
-    
-
-
-
-    
 });
+
+export { expect } from '@playwright/test';
 
 
 
