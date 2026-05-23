@@ -1,5 +1,6 @@
 import { Page } from '@playwright/test';
-import { test } from '../fixtures/testFixtures.ts';
+//import { test } from '../fixtures/testFixtures.ts';
+import { testData } from '../test-data/testData';
 
 export class ProductPage{
 
@@ -14,6 +15,10 @@ export class ProductPage{
 
     async getProductCount(): Promise<number> {
         return await this.page.locator(this.productItems).count();
+    }
+
+    async navigateToProductsPage() {
+        return await this.page.goto(testData.base_url + '/inventory.html')
     }
 
 }
