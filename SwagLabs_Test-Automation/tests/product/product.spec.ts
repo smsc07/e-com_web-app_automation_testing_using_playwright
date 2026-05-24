@@ -1,6 +1,7 @@
 import { test, expect } from '../../fixtures/testFixtures';
 import { testData } from '../../test-data/testData';
 import { takeScreenshot, takeSnip } from '../../helpers/screenshotHelper';
+import { assert } from 'console';
 
 test('TC-003 - TC-007', async ({ loginPage, page }) => {
 
@@ -66,7 +67,7 @@ test('TC-003 - TC-007', async ({ loginPage, page }) => {
 //ADD THESE TCs ABOVE
 
 
-test('TC-008 - TC-00000', {tag: '@product'}, async ({ loginPage, productPage, page }) => {
+test('TC-008 - TC-000', async ({ loginPage, productPage, page }) => {
 
     await loginPage.navigate();
     await loginPage.login(
@@ -75,7 +76,11 @@ test('TC-008 - TC-00000', {tag: '@product'}, async ({ loginPage, productPage, pa
     );
 
     await productPage.navigateToProductsPage();
-    
+    await expect(page.locator('[data-test="add-to-cart-sauce-labs-backpack"]')).toBeVisible;
+    await page.locator('[data-test="add-to-cart-sauce-labs-backpack""]').click;
+    await expect(page.locator('[data-test="remove-sauce-labs-backpack"]')).toBeVisible;
+    await expect(page.locator('[data-test="remove-sauce-labs-backpack"]')).toHaveClass('btn btn_seconda btn_small btn_inventory');
 
+    await takeSnip(page.locator('[data-test="remove-sauce-labs-backpack"]'), 'TC-008 - ER1');
 });
 
