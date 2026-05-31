@@ -1,13 +1,16 @@
 import {test as base, expect } from '@playwright/test'; //Renaming test to base because of new test u will create
 import { LoginPage } from '../pages/LoginPage'; //Bringing in your Page Objects (How to interact)
-import { ProductPage } from '../pages/ProductPage'; //Bringing in your Page Objects (How to interact)
+import { ProductPage } from '../pages/ProductPage';
+import { CartPage } from '../pages/CartPage';
 
 
 
 //My test will have a Fixture called loginPage and its type is LoginPage
 type MyFixtures = {
+    
     loginPage: LoginPage;
     productPage: ProductPage;
+    cartPage: CartPage;
     
 };
 
@@ -22,6 +25,11 @@ export const test = base.extend<MyFixtures>({
     productPage: async ({ page }, use) =>{
         const productPage = new ProductPage(page);
         await use(productPage);
+    },
+
+    cartPage: async ({ page }, use) =>{
+        const cartPage = new CartPage(page);
+        await use(cartPage);
     }
 
 });
