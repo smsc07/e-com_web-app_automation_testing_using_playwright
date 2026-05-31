@@ -1,21 +1,23 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { testData } from '../test-data/testData';
+import { error } from 'node:console';
 
 export class ProductPage{
 
+    //Locators
     private page: Page;
     readonly inventoryList: Locator;
     readonly inventoryItem: Locator;
     readonly inventoryItemImg: Locator;
     readonly inventoryItemDes: Locator;
+    readonly shopppingCartBadge: Locator;
 
-    // Locators
-    productItems = '[data-test="inventory-item"]';
-
+    //Variables
     addedItems: string[] = [];
-    
-
     private removeBtnCSS = 'btn btn_secondary btn_small btn_inventory ';
+
+    //Extra
+    productItems = '[data-test="inventory-item"]';
 
     constructor(page:Page){
         this.page = page,
@@ -23,13 +25,13 @@ export class ProductPage{
         this.inventoryItem = this.page.locator('[data-test="inventory-item"]');
         this.inventoryItemImg = this.page.locator('[data-test="inventory-item_img"]');
         this.inventoryItemDes = this.page.locator('[data-test="inventory-item-description"]');
+        this.shopppingCartBadge = this.page.locator('[data-test="shopping-cart-badge"]');
         this.addedItems = [];
     }
 
     async navigateToProductsPage() {
         return await this.page.goto(testData.base_url + '/inventory.html');
     }
-
     async itemImagesVisibilityCheck() {
         const items = this.page.locator('[data-test^="item-"][data-test$="-img-link"]');
         const count = await items.count();
@@ -38,7 +40,6 @@ export class ProductPage{
             await expect(items.nth(i)).toBeVisible();
         }
     }
-
     async itemDesCountAndVisibilityCheck() {
 
         const count = await this.inventoryItemDes.count();
@@ -48,8 +49,8 @@ export class ProductPage{
         for (let i = 0; i < count; i++) {
             await expect(this.inventoryItemDes.nth(i)).toBeVisible();
         };
-    }
 
+    }
     async addItem(addToCartBtn: string, removeToCartBtn:string){
 
         //Add item to array
@@ -62,16 +63,19 @@ export class ProductPage{
         //check button change
         await expect(this.page.locator(removeToCartBtn)).toBeVisible(),
         await expect(this.page.locator(removeToCartBtn)).toHaveClass(this.removeBtnCSS);
+
+        console.log('added successfully!');
     }
+    async deleteItemsOnCart(){
 
-    async countShoppingCartItem(addedItems:number){
+        this.addedItems = [];
 
     }
+    async countShoppingCartItem(){
 
-        await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
+        await expect(await this.shopppingCartBadge).toHaveText(this.addedItems.length.toString());
 
-
-
+    }
     async getProductCount(): Promise<number> {
         return await this.page.locator(this.productItems).count();
     }

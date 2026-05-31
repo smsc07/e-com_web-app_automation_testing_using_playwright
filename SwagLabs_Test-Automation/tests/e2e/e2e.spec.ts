@@ -1,7 +1,6 @@
 import { test, expect } from '../../fixtures/testFixtures';
 import { testData } from '../../test-data/testData';
 import { takeScreenshot, takeSnip } from '../../helpers/screenshotHelper';
-import { count } from 'node:console';
 
 test('E2E-001', async ({ loginPage, productPage, cartPage, page }) => {
 
@@ -20,7 +19,6 @@ test('E2E-001', async ({ loginPage, productPage, cartPage, page }) => {
     await productPage.itemDesCountAndVisibilityCheck();
     await takeScreenshot(page, 'E2E-001 - ER1');
 
-
     //add item 1
     await productPage.addItem('[data-test="add-to-cart-sauce-labs-backpack"]',
         '[data-test="remove-sauce-labs-backpack"]');
@@ -32,19 +30,15 @@ test('E2E-001', async ({ loginPage, productPage, cartPage, page }) => {
         '[data-test="remove-sauce-labs-fleece-jacket"]');
     await takeScreenshot(page, 'E2E-001 - ER2');
 
-    
-    //ER3
 
-    
-    await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
-
-    await count(page.)
-
+    await productPage.countShoppingCartItem();
     await takeScreenshot(page, 'E2E-001 - ER3');
 
+    //ER-4-Work in Progress
 
-    await console.log(productPage.addedItems);
 
 
-    
+
+    //After Testing
+    await productPage.deleteItemsOnCart();
 });
