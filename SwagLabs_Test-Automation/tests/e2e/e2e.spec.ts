@@ -2,7 +2,7 @@ import { test, expect } from '../../fixtures/testFixtures';
 import { testData } from '../../test-data/testData';
 import { takeScreenshot, takeSnip } from '../../helpers/screenshotHelper';
 
-test('E2E-001', async ({ loginPage, productPage, cartPage, page }) => {
+test('E2E-001', async ({ loginPage, productPage, cartPage, checkoutPage, page }) => {
 
     //onboarding
     await loginPage.navigate();
@@ -11,7 +11,7 @@ test('E2E-001', async ({ loginPage, productPage, cartPage, page }) => {
                 testData.validUser.password,
     );
 
-    //assert product page
+
     await productPage.navigateToProductsPage();
     await expect(productPage.inventoryList).toBeVisible();
     await expect(productPage.inventoryItem).toHaveCount(6);
@@ -19,25 +19,34 @@ test('E2E-001', async ({ loginPage, productPage, cartPage, page }) => {
     await productPage.itemDesCountAndVisibilityCheck();
     await takeScreenshot(page, 'E2E-001 - ER1');
 
-    //add item 1
-    await productPage.addItem('[data-test="add-to-cart-sauce-labs-backpack"]',
+
+    await productPage.addItem('Sauce Labs Backpack','[data-test="add-to-cart-sauce-labs-backpack"]',
         '[data-test="remove-sauce-labs-backpack"]');
-    //add item 2
-    await productPage.addItem('[data-test="add-to-cart-sauce-labs-onesie"]',
+    await productPage.addItem('Sauce Labs Onesie','[data-test="add-to-cart-sauce-labs-onesie"]',
         '[data-test="remove-sauce-labs-onesie"]');
-    //add item 3
-    await productPage.addItem('[data-test="add-to-cart-sauce-labs-fleece-jacket"]',
+    await productPage.addItem('Sauce Labs Fleece Jacket','[data-test="add-to-cart-sauce-labs-fleece-jacket"]',
         '[data-test="remove-sauce-labs-fleece-jacket"]');
+    await productPage.countShoppingCartItem();
     await takeScreenshot(page, 'E2E-001 - ER2');
 
 
-    await productPage.countShoppingCartItem();
+    await productPage.navigateToYourCartPage();
+    await cartPage.checkItemsAddedToCart(productPage.addedItems);
     await takeScreenshot(page, 'E2E-001 - ER3');
 
-    //ER-4-Work in Progress
 
+    await cartPage.navigateToCheckoutPage();
+    await checkoutPage.fillOutInformationForm();
+    await takeScreenshot(page, 'E2E-001 - ER4');
 
-
+    //E2E-001 - ER5 Work In Progress
+    await checkoutPage.navigateToCheckoutOverviewPage();
+    await checkoutPage.checkItemsListedOnCheckoutOverview(productPage.addedItems);
+    await checkoutPage.verifyCheckOutInformation();
+    await checkoutPage.verifyComputedItemTotal();
+    // await checkoutPage.verifyTax();
+    // await checkoutPage.verifyTotal();
+    await takeScreenshot(page, 'E2E-001 - ER5');
 
     //After Testing
     await productPage.deleteItemsOnCart();

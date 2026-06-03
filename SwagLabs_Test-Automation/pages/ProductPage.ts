@@ -1,6 +1,6 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { testData } from '../test-data/testData';
-import { error } from 'node:console';
+import { CartPage } from './CartPage';
 
 export class ProductPage{
 
@@ -11,13 +11,13 @@ export class ProductPage{
     readonly inventoryItemImg: Locator;
     readonly inventoryItemDes: Locator;
     readonly shopppingCartBadge: Locator;
-
+    readonly shoppingCartLinkIcon: Locator;
+    readonly secondaryHeader: Locator;
+    
     //Variables
     addedItems: string[] = [];
+    private cartPage1 = "Your Cart";
     private removeBtnCSS = 'btn btn_secondary btn_small btn_inventory ';
-
-    //Extra
-    productItems = '[data-test="inventory-item"]';
 
     constructor(page:Page){
         this.page = page,
@@ -26,13 +26,24 @@ export class ProductPage{
         this.inventoryItemImg = this.page.locator('[data-test="inventory-item_img"]');
         this.inventoryItemDes = this.page.locator('[data-test="inventory-item-description"]');
         this.shopppingCartBadge = this.page.locator('[data-test="shopping-cart-badge"]');
+        this.shoppingCartLinkIcon = this.page.locator('[data-test="shopping-cart-link"]');
+        this.secondaryHeader = this.page.locator('[data-test="secondary-header"]');
         this.addedItems = [];
     }
 
     async navigateToProductsPage() {
+        
         return await this.page.goto(testData.base_url + '/inventory.html');
     }
+    async navigateToYourCartPage() {
+
+        await this.shoppingCartLinkIcon.click();
+        await expect(this.secondaryHeader).toBeVisible();
+        await expect(this.secondaryHeader).toHaveText(this.cartPage1);
+
+    }
     async itemImagesVisibilityCheck() {
+
         const items = this.page.locator('[data-test^="item-"][data-test$="-img-link"]');
         const count = await items.count();
 
@@ -51,10 +62,10 @@ export class ProductPage{
         };
 
     }
-    async addItem(addToCartBtn: string, removeToCartBtn:string){
+    async addItem(inventoryName: string, addToCartBtn: string, removeToCartBtn:string){
 
         //Add item to array
-        this.addedItems.push(addToCartBtn)
+        this.addedItems.push(inventoryName)
 
         //click add to cart button
         return await expect(this.page.locator(addToCartBtn)).toBeVisible(),
@@ -64,7 +75,6 @@ export class ProductPage{
         await expect(this.page.locator(removeToCartBtn)).toBeVisible(),
         await expect(this.page.locator(removeToCartBtn)).toHaveClass(this.removeBtnCSS);
 
-        console.log('added successfully!');
     }
     async deleteItemsOnCart(){
 
@@ -75,9 +85,6 @@ export class ProductPage{
 
         await expect(await this.shopppingCartBadge).toHaveText(this.addedItems.length.toString());
 
-    }
-    async getProductCount(): Promise<number> {
-        return await this.page.locator(this.productItems).count();
     }
 
 }

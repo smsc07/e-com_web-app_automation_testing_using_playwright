@@ -8,12 +8,19 @@ export const testData = {
     password: 'secret_sauce'!,
   },
   invalidUser: {
-    username: 'wrong_user',
-    password: 'wrong_pass',
+    username: 'wrong_user'!,
+    password: 'wrong_pass'!,
   },
   lockedOutUser: {
-    username: 'locked_out_user',
+    username: 'locked_out_user'!,
     password: 'secret_sauce'!,
+  },
+  buyerData: {
+    firstNameData: 'JERIC'!,
+    lasNameData: 'SANTOS'!,
+    postalCodeData: '19827'!,
+    paymentInfoValueData: 'SauceCard #31337'!,
+    shippingInfoValueData: 'Free Pony Express Delivery!'!,
   },
 
 };
