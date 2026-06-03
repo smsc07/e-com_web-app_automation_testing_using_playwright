@@ -125,3 +125,4 @@ test('TC-003 - TC-011', async ({ loginPage, productPage, cartPage, page }) => {
     await takeScreenshot(page, 'TC-011 - ER3');
 
 });
+
