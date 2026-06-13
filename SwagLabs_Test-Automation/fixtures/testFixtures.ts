@@ -2,6 +2,7 @@ import {test as base, expect } from '@playwright/test'; //Renaming test to base 
 import { LoginPage } from '../pages/LoginPage'; //Bringing in your Page Objects (How to interact)
 import { ProductPage } from '../pages/ProductPage';
 import { CartPage } from '../pages/CartPage';
+import { CheckoutPage } from '../pages/CheckoutPage';
 
 
 
@@ -11,6 +12,7 @@ type MyFixtures = {
     loginPage: LoginPage;
     productPage: ProductPage;
     cartPage: CartPage;
+    checkoutPage: CheckoutPage;
     
 };
 
@@ -30,7 +32,12 @@ export const test = base.extend<MyFixtures>({
     cartPage: async ({ page }, use) =>{
         const cartPage = new CartPage(page);
         await use(cartPage);
-    }
+    },
+
+    checkoutPage: async ({ page }, use) =>{
+        const checkoutPage = new CheckoutPage(page);
+        await use(checkoutPage);
+    },
 
 });
 
