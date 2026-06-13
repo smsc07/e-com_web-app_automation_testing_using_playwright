@@ -22,5 +22,8 @@ export const testData = {
     paymentInfoValueData: 'SauceCard #31337'!,
     shippingInfoValueData: 'Free Pony Express Delivery!'!,
   },
+  otherData: {
+    taxPercentage: 0.08!,
+  }
 
 };

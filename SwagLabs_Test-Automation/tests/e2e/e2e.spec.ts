@@ -11,7 +11,6 @@ test('E2E-001', async ({ loginPage, productPage, cartPage, checkoutPage, page })
                 testData.validUser.password,
     );
 
-
     await productPage.navigateToProductsPage();
     await expect(productPage.inventoryList).toBeVisible();
     await expect(productPage.inventoryItem).toHaveCount(6);
@@ -39,14 +38,17 @@ test('E2E-001', async ({ loginPage, productPage, cartPage, checkoutPage, page })
     await checkoutPage.fillOutInformationForm();
     await takeScreenshot(page, 'E2E-001 - ER4');
 
-    //E2E-001 - ER5 Work In Progress
     await checkoutPage.navigateToCheckoutOverviewPage();
     await checkoutPage.checkItemsListedOnCheckoutOverview(productPage.addedItems);
     await checkoutPage.verifyCheckOutInformation();
     await checkoutPage.verifyComputedItemTotal();
-    // await checkoutPage.verifyTax();
-    // await checkoutPage.verifyTotal();
+    await checkoutPage.verifyTax();
+    await checkoutPage.verifyTotal();
     await takeScreenshot(page, 'E2E-001 - ER5');
+
+    await checkoutPage.navigateToCheckoutCompletePage();
+    await checkoutPage.verifyCompletePurchaseHeaderAndText();
+    await takeScreenshot(page, 'E2E-001 - ER6');
 
     //After Testing
     await productPage.deleteItemsOnCart();
